@@ -8,17 +8,24 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  children      Child[]
-  sessions      Session[]
-  stories       Story[]
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String    @unique
+  emailVerified      DateTime?
+  image              String?
+  storyCount         Int       @default(0)
+  stripeCustomerId   String?
+  subscriptionStatus String?
+  subscriptionPlan   String?
+  subscriptionStart  DateTime?
+  subscriptionEnd    DateTime?
+  paymentReminderAt  DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  accounts           Account[]
+  children           Child[]
+  sessions           Session[]
+  stories            Story[]
 }
 
 model Account {
@@ -34,11 +41,10 @@ model Account {
   scope                    String?
   id_token                 String?
   session_state            String?
+  refresh_token_expires_in Int?
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
-  refresh_token_expires_in Int?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -78,6 +84,7 @@ model Story {
   content   String
   childId   String
   userId    String
+  price     Float    @default(0.0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   images    Image[]
@@ -91,7 +98,7 @@ model Image {
   imageUrl  String
   pageIndex Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now())
   story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
 }
 

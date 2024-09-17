@@ -5,6 +5,13 @@ CREATE TABLE "User" (
     "email" STRING NOT NULL,
     "emailVerified" TIMESTAMP(3),
     "image" STRING,
+    "storyCount" INT4 NOT NULL DEFAULT 0,
+    "stripeCustomerId" STRING,
+    "subscriptionStatus" STRING,
+    "subscriptionPlan" STRING,
+    "subscriptionStart" TIMESTAMP(3),
+    "subscriptionEnd" TIMESTAMP(3),
+    "paymentReminderAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -25,6 +32,7 @@ CREATE TABLE "Account" (
     "scope" STRING,
     "id_token" STRING,
     "session_state" STRING,
+    "refresh_token_expires_in" INT4,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -71,6 +79,7 @@ CREATE TABLE "Story" (
     "content" STRING NOT NULL,
     "childId" STRING NOT NULL,
     "userId" STRING NOT NULL,
+    "price" FLOAT8 NOT NULL DEFAULT 0.0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -84,7 +93,7 @@ CREATE TABLE "Image" (
     "imageUrl" STRING NOT NULL,
     "pageIndex" INT4 NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
 );
